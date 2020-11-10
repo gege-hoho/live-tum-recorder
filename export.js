@@ -1,9 +1,9 @@
 const puppeteer = require('puppeteer');
 const Xvfb      = require('xvfb');
+const schedule = require('node-schedule');
 const fs = require('fs');
 const os = require('os');
 const homedir = os.homedir();
-const platform = os.platform();
 
 var xvfb        = new Xvfb({
     silent: true,
@@ -13,8 +13,9 @@ const width       = 1280;
 const height      = 720;
 const overview_url = "https://live.rbg.tum.de/cgi-bin/streams"
 var options     = {
-  headless: false,
-  args: [
+    headless: false,
+    executablePath : "/usr/bin/google-chrome",
+    args: [
     '--enable-usermedia-screen-capturing',
     '--allow-http-screen-capture',
     '--auto-select-desktop-capture-source=bbbrecorder',
@@ -30,37 +31,42 @@ var options     = {
   ],
 }
 
-if(platform === "linux"){
-    options.executablePath = "/usr/bin/google-chrome"
-}else{
-    process.exit(1);
+function main(){
+    if(process.argv[2]==="--no_schedule"){
+        const lec_name = process.argv[3];
+        const export_name = process.argv[4];
+        const duration = process.argv[5];
+        record(lec_name,export_name,duration)
+    }
+    else {
+        schedule.scheduleJob('42 * * * * *',()=>{
+            date = new Date().toISOString().slice(0, 10)
+            console.log(date+"_IN2021.webm")
+            record("IN2021",date+"_IN2021.webm", 10)})
+    }
+
 }
 
-async function main() {
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+async function record(lec_name,exportname,duration) {
     let browser, page;
-
     try{
-        //xvfb.startSync()
-
-        var lec_name = process.argv[2];
+        xvfb.startSync()
         if(!lec_name){
             console.warn('Lecture name undefined!');
-            process.exit(1);
+            return;
         }
-
-        var exportname = process.argv[3];
-
-        var duration = process.argv[4];
         // If duration isn't defined, set it in 0
         if(!duration){
             duration = 0;
         // Check if duration is a natural number
         }else if(!Number.isInteger(Number(duration)) || duration < 0){
             console.warn('Duration must be a natural number!');
-            process.exit(1);
+            return;
         }
         console.log("Search for: " + lec_name)
-
         browser = await puppeteer.launch(options)
         const pages = await browser.pages()
 
@@ -70,44 +76,37 @@ async function main() {
             var m = msg.text();
             console.log('PAGE LOG:', m) // uncomment if you need
         });
-
         await page._client.send('Emulation.clearDeviceMetricsOverride')
-        // Catch URL unreachable error
-        /*await page.goto(overview_url, {waitUntil: 'networkidle2'}).catch(e => {
-            console.error('Recording URL unreachable!');
-            process.exit(2);
-        })*/
-        await page.goto(overview_url)
-        await page.setBypassCSP(true)
+        let link;
+        while(true){
+            await page.goto(overview_url)
+            await page.setBypassCSP(true)
 
-
-        //Check if there are livestreams
-        const found = await page.evaluate(() => window.find("Aktive Livestreams"));
-        if(!found){
-            console.error("no live streams")
-            process.exit(2);
-        }
-        const links = await page.evaluate(()=>{
-            let links = []
-            let sel = document.querySelector('ul').getElementsByTagName('a')
-            for(const curr of sel){
+            const links = await page.evaluate(()=>{
+                let links = []
+                let sel = document.querySelector('ul').getElementsByTagName('a')
+                for(const curr of sel){
                     links.push({
                         link: curr.href,
                         text: curr.innerText
                     })
+                }
+                return links
+            })
+            for(const curr of links){
+                if (curr.text.includes(lec_name)){
+                    link =  curr.link;
+                }
             }
-            return links
-        })
-        let link = undefined;
-        for(const curr of links){
-            if (curr.text.includes(lec_name)){
-                link =  curr.link;
+            if (!link){
+                console.log("cannot find: " + lec_name)
+                console.log("wait 1 mintue and try again")
+                await sleep(60*1000)
+                continue
             }
+            break
         }
-        if (!link){
-            console.error("cannot find: " + lec_name)
-            process.exit(2);
-        }
+
         console.log(link)
         await page.goto(link + "/COMB")
 
@@ -141,9 +140,6 @@ async function main() {
         //xvfb.stopSync()
     }
 }
-
-main()
-
 function copyOnly(filename){
 
     var copyFrom = homedir + "/Downloads/" + filename;
@@ -160,3 +156,4 @@ function copyOnly(filename){
         console.log(err)
     }
 }
+main()
