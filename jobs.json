@@ -1,0 +1,14 @@
+{
+  "jobs": [
+    {
+    "name":"Test",
+    "code": "IN567",
+    "duration": 60,
+    "start": "0 * * * * 2"},
+    {
+    "name":"Test 2",
+    "code": "IN1234",
+    "duration": 45,
+    "start": "0 15 14 * * 5"
+  }]
+}

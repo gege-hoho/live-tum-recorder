@@ -41,10 +41,15 @@ function main(){
         record(lec_name,export_name,duration)
     }
     else {
-        schedule.scheduleJob('0 20 14 * * 2',()=>{
-            date = new Date().toISOString().slice(0, 10)
-            console.log(date+"_IN2209.webm")
-            record("IN2209",date+"_IN2021.webm", 45*60)})
+        let jobs = JSON.parse(fs.readFileSync('jobs.json'));
+        jobs.jobs.forEach((job)=>{
+            console.log("Schedule Job: " + job.name)
+            schedule.scheduleJob(job.start,function(job) {
+                date = new Date().toISOString().slice(0, 10)
+                console.log('Start recording:' +date+'_'+job.code+'.webm')
+                record(job.code,date+'_'+job.code+'.webm', job.duration*60)
+            }.bind(null,job))
+        })
     }
 
 }
