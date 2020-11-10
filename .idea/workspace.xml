@@ -20,12 +20,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="000be147-5454-48b2-945d-914177e3430b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/tum-live-recorder.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/export.js" beforeDir="false" afterPath="$PROJECT_DIR$/export.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,8 +51,19 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
-  <component name="RunManager" selected="Node.js.schedule">
-    <configuration name="export.js" type="NodeJSConfigurationType" application-parameters="--no_schedule IN2021 test.webm 10" nameIsGenerated="true" path-to-js-file="export.js" working-dir="$PROJECT_DIR$">
+  <component name="RunManager" selected="Node.js.export.js">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="export.js" type="NodeJSConfigurationType" application-parameters="--no_schedule IN2209 blabla.webm 30" nameIsGenerated="true" path-to-js-file="export.js" working-dir="$PROJECT_DIR$">
       <method v="2" />
     </configuration>
     <configuration name="schedule" type="NodeJSConfigurationType" path-to-js-file="export.js" working-dir="$PROJECT_DIR$">
@@ -74,8 +82,16 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1605010740541</updated>
-      <workItem from="1605010742195" duration="1876000" />
+      <workItem from="1605010742195" duration="5189000" />
     </task>
+    <task id="LOCAL-00001" summary="added scheduling">
+      <created>1605012896596</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1605012896596</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -92,27 +108,51 @@
       </map>
     </option>
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="added scheduling" />
+    <option name="LAST_COMMIT_MESSAGE" value="added scheduling" />
+  </component>
   <component name="WindowStateProjectService">
-    <state x="793" y="189" width="1084" height="708" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1605012140772">
+    <state x="793" y="189" width="1084" height="708" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1605014003496">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
-    <state x="793" y="189" key="#com.intellij.execution.impl.EditConfigurationsDialog/72.27.1848.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1605012140772" />
+    <state x="793" y="189" key="#com.intellij.execution.impl.EditConfigurationsDialog/72.27.1848.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1605014003496" />
     <state x="454" y="211" width="1084" height="708" key="#com.intellij.execution.impl.EditConfigurationsDialog/72.27.1848.1053/1920.0.1920.1080@72.27.1848.1053" timestamp="1605010963790" />
-    <state width="1802" height="266" key="GridCell.Tab.0.bottom" timestamp="1605012258849">
+    <state x="1920" y="355" width="617" height="403" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1605015027935">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state width="1802" height="266" key="GridCell.Tab.0.bottom/72.27.1848.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1605012258849" />
-    <state width="1802" height="266" key="GridCell.Tab.0.center" timestamp="1605012258849">
+    <state x="1920" y="355" width="617" height="403" key="#com.intellij.fileTypes.FileTypeChooser/72.27.1848.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1605015027935" />
+    <state width="1802" height="316" key="GridCell.Tab.0.bottom" timestamp="1605014356712">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state width="1802" height="266" key="GridCell.Tab.0.center/72.27.1848.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1605012258849" />
-    <state width="1802" height="266" key="GridCell.Tab.0.left" timestamp="1605012258849">
+    <state width="1802" height="316" key="GridCell.Tab.0.bottom/72.27.1848.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1605014356712" />
+    <state width="1802" height="316" key="GridCell.Tab.0.center" timestamp="1605014356711">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state width="1802" height="266" key="GridCell.Tab.0.left/72.27.1848.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1605012258849" />
-    <state width="1802" height="266" key="GridCell.Tab.0.right" timestamp="1605012258849">
+    <state width="1802" height="316" key="GridCell.Tab.0.center/72.27.1848.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1605014356711" />
+    <state width="1802" height="316" key="GridCell.Tab.0.left" timestamp="1605014356711">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state width="1802" height="266" key="GridCell.Tab.0.right/72.27.1848.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1605012258849" />
+    <state width="1802" height="316" key="GridCell.Tab.0.left/72.27.1848.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1605014356711" />
+    <state width="1802" height="316" key="GridCell.Tab.0.right" timestamp="1605014356711">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1802" height="316" key="GridCell.Tab.0.right/72.27.1848.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1605014356711" />
+    <state x="1920" y="289" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1605012902500">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="1920" y="289" width="800" height="535" key="Vcs.Push.Dialog.v2/72.27.1848.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1605012902500" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/export.js</url>
+          <line>71</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

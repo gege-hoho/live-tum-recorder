@@ -1,6 +1,7 @@
 const puppeteer = require('puppeteer');
 const Xvfb      = require('xvfb');
 const schedule = require('node-schedule');
+const dotenv = require("dotenv");
 const fs = require('fs');
 const os = require('os');
 const homedir = os.homedir();
@@ -12,6 +13,7 @@ var xvfb        = new Xvfb({
 const width       = 1280;
 const height      = 720;
 const overview_url = "https://live.rbg.tum.de/cgi-bin/streams"
+const login_url = "https://live.rbg.tum.de/cgi-bin/login.pl"
 var options     = {
     headless: false,
     executablePath : "/usr/bin/google-chrome",
@@ -39,10 +41,10 @@ function main(){
         record(lec_name,export_name,duration)
     }
     else {
-        schedule.scheduleJob('42 * * * * *',()=>{
+        schedule.scheduleJob('0 20 14 * * 2',()=>{
             date = new Date().toISOString().slice(0, 10)
-            console.log(date+"_IN2021.webm")
-            record("IN2021",date+"_IN2021.webm", 10)})
+            console.log(date+"_IN2209.webm")
+            record("IN2209",date+"_IN2021.webm", 45*60)})
     }
 
 }
@@ -52,6 +54,21 @@ function sleep(ms) {
 }
 async function record(lec_name,exportname,duration) {
     let browser, page;
+    const result = dotenv.config();
+
+    if (result.error) {
+        throw result.error;
+    }
+
+    if(process.env.TUM_USER===""){
+        console.log("you have to specify a TUM_USER in the .env file")
+        return
+    }
+    if(process.env.TUM_PW===""){
+        console.log("you have to specify a TUM_PW in the .env file")
+        return
+    }
+
     try{
         xvfb.startSync()
         if(!lec_name){
@@ -77,6 +94,13 @@ async function record(lec_name,exportname,duration) {
             console.log('PAGE LOG:', m) // uncomment if you need
         });
         await page._client.send('Emulation.clearDeviceMetricsOverride')
+
+        //login
+        await page.goto(login_url)
+        await page.$eval('input[name=login]', (el,user) => el.value = user, process.env.TUM_USER);
+        await page.$eval('input[name=password]', (el,pw) => el.value = pw, process.env.TUM_PW);
+        await page.$eval('input[name="cookies"]', check => check.checked = true);
+        await page.click('input[type=submit]');
         let link;
         while(true){
             await page.goto(overview_url)
@@ -107,7 +131,7 @@ async function record(lec_name,exportname,duration) {
             break
         }
 
-        console.log(link)
+        console.log("Found link: "+ link + "/COMB")
         await page.goto(link + "/COMB")
 
 
@@ -137,7 +161,7 @@ async function record(lec_name,exportname,duration) {
     } finally {
         page.close && await page.close()
         browser.close && await browser.close()
-        //xvfb.stopSync()
+        xvfb.stopSync()
     }
 }
 function copyOnly(filename){
