@@ -101,6 +101,7 @@ async function record(lec_name,exportname,duration) {
         await page.$eval('input[name=password]', (el,pw) => el.value = pw, process.env.TUM_PW);
         await page.$eval('input[name="cookies"]', check => check.checked = true);
         await page.click('input[type=submit]');
+        await page.waitForNavigation({ waitUntil: 'networkidle0' })
         let link;
         while(true){
             await page.goto(overview_url)
