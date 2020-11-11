@@ -89,7 +89,7 @@ async function record(lec_name,exportname,duration) {
 
         page.on('console', msg => {
             const m = msg.text();
-            console.log('PAGE LOG:', m) // uncomment if you need
+            //console.log('PAGE LOG:', m) // uncomment if you need
         });
         await page._client.send('Emulation.clearDeviceMetricsOverride')
 
