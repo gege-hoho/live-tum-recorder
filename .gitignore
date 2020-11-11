@@ -5,3 +5,4 @@ config.json
 out/
 .env
 .idea
+jobs.json

@@ -1,51 +1,72 @@
-# bbb-recorder
+# tum-live-recorder
 
-Bigbluebutton recordings export to `webm` or `mp4` & live broadcasting. This is an example how I have implemented BBB recordings to distibutable file.
+Records videos from https://live.rbg.tum.de/cgi-bin/streams
 
-1. Videos will be copy to `/var/www/bigbluebutton-default/record`. You can change value of `copyToPath` from `.env`.
-3. Can be converted to `mp4`. Default `webm`
-2. Specify bitrate to control quality of the exported video by adjusting `videoBitsPerSecond` property in `background.js`
+## Dependencies
 
+1. Running Linux (WSL2 could work)
+2. xvfb `apt install xvfb`
+3. Google Chrome stable
+4. npm modules listed in package.json `npm install --ignore-scripts`
 
-### Dependencies
-
-1. xvfb (`apt install xvfb`)
-2. Google Chrome stable
-3. npm modules listed in package.json
-4. Everything inside `dependencies_check.sh` (run `./dependencies_check.sh` to install all)
-
-The latest Google Chrome stable build should be use.
-
+## Usage
+Here the two ways to use the program. 
+Either you schedule the time, a recording will be started 
+or you start directly a recording. 
+If you schedule a recording, the program needs to keep running in order to record on the given time 
+### General
+The program logs in with your TUM account because some videos are only available to logged in Users.
+For this copy the content of `example.env` into the `.env` file and fill in your TUM user and password.  
+### Recording without Scheduling
 ```sh
-curl -sS -o - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add
-echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
-apt-get -y update
-apt-get -y install google-chrome-stable
+node export.js --no_schedule <Lecture ID> <filenamename> <recording length in minutes>
+```
+Outputfile has to end with .webm and lands in `./out/<filename>`
+
+Use  VLC Player for displaying Video other Players might not show the image
+
+### Recording with Scheduling
+Remove all existing example jobs from `jobs.json` and write your own accordingly:
+
+Here is an example job:
+```
+    "name":"Test",
+    "code": "IN567",
+    "duration": 60,
+    "start": "0 * * * * 2"
+```
+The `name` parameter can be freely chosen its only for logging. \
+The `code` parameter resembles the Lecture code by which the Lecture is found on the Page\
+The `duration` parameter defines the length of the recording in minutes. To account for too long lectures maybe add some minutes\
+The `start` parameter defines the time the lecture recording should run and uses cron format:
+```
+*    *    *    *    *    *
+┬    ┬    ┬    ┬    ┬    ┬
+│    │    │    │    │    │
+│    │    │    │    │    └ day of week (0 - 7) (0 or 7 is Sun)
+│    │    │    │    └───── month (1 - 12)
+│    │    │    └────────── day of month (1 - 31)
+│    │    └─────────────── hour (0 - 23)
+│    └──────────────────── minute (0 - 59)
+└───────────────────────── second (0 - 59, OPTIONAL)
 ```
 
-### Usage
-
-Clone the project first:
-
-```javascript
-git clone https://github.com/gege-hoho/live-tum-recorder
-cd live-tum-recorder
-npm install --ignore-scripts
-```
-
-### Recording
-
+Start now the script or put it in your autostart, whatever you want
 ```sh
-node export.js <Lecture ID> <Outputfile> <recording length in seconds>
+node export.js
 ```
-Outputfile has to end with .webm
-Use  VLC Player for displaying Video
+Outputfile has to end with .webm and lands in `./out/<filename>`
 
-### How it will work?
-When you will run the command that time `Chrome` browser will be open in background & visit the link to perform screen recording. Later it will give you file as webm
+Use  VLC Player for displaying Video other Players might not show the image
+
+
+### How does it work?
+-Starts a xvfb (Virtual Framebuffer) \
+-Launches Google Chrome in there, which gets controlled by Pupeteer\
+-Records the Screen and saves it to a webm
 
 ### Thanks to
 
-[bbb-recorder](https://github.com/jibon57/bbb-recorder).
-[puppetcam](https://github.com/muralikg/puppetcam). Most of the parts were copied from there.
+[bbb-recorder](https://github.com/jibon57/bbb-recorder). Gave me the inspiration and was used as a basis\
+[puppetcam](https://github.com/muralikg/puppetcam). Most of the parts were copied from there.\
 [Canvas-Streaming-Example](https://github.com/fbsamples/Canvas-Streaming-Example)
