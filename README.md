@@ -4,7 +4,7 @@ Records videos from https://live.rbg.tum.de/cgi-bin/streams
 
 ## Dependencies
 
-1. Running Linux (WSL2 could work)
+1. Running Linux (If you're on Windows, WSL2 could work)
 2. xvfb `apt install xvfb`
 3. Google Chrome stable
 4. npm modules listed in package.json `npm install --ignore-scripts`
